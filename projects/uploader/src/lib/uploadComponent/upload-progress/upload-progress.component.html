@@ -1,0 +1,108 @@
+<ng-container *ngIf="!uploadScroll;else virtualScroll">
+  <div [ngClass]="uploadWrap">
+    <div *ngFor="let item of uploadlist" class="uploader-item">
+      <div class="taskname">{{item.name}}</div>
+      <div class="progress-wrapper">
+        <ng-container *ngIf="useDefaultProgress;else userDefine">
+          <mat-progress-bar mode="determinate" class="progress-bar-item" [value]="item.progress">
+          </mat-progress-bar>
+        </ng-container>
+        <ng-template #userDefine>
+          <template *ngTemplateOutlet="progressTemplate;context:{$implicit:item}"></template>
+        </ng-template>
+        <div class="progress-options" *ngIf="showOptionsBtn">
+          <ng-container *ngIf="item.isPause">
+            <button class="upload-btn" (click)="continueTask(item,$event)">
+              <svg t="1575269542314" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                xmlns="http://www.w3.org/2000/svg" p-id="1343" width="1em" height="1em">
+                <path
+                  d="M924.78 337.61A449.35 449.35 0 1 0 960 512a446.29 446.29 0 0 0-35.22-174.39zM775 775a372 372 0 1 1 109-263 369.53 369.53 0 0 1-109 263z"
+                  p-id="1344"></path>
+                <path
+                  d="M710.3 472.88L477 294.28a48 48 0 0 0-77.18 38.11v357.22A47.95 47.95 0 0 0 477 727.72l233.3-178.6a48 48 0 0 0 0-76.24zM463.77 657.21V364.79L654.8 511z"
+                  p-id="1345"></path>
+              </svg>
+            </button>
+          </ng-container>
+          <ng-container *ngIf="!item.isPause">
+            <button class="upload-btn" (click)="pauseTask(item,$event)">
+              <svg t="1575269581569" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                xmlns="http://www.w3.org/2000/svg" p-id="1462" width="1em" height="1em">
+                <path
+                  d="M924.78 337.61A449.35 449.35 0 1 0 960 512a446.29 446.29 0 0 0-35.22-174.39zM775 775a372 372 0 1 1 109-263 369.53 369.53 0 0 1-109 263z"
+                  p-id="1463"></path>
+                <path d="M580 313h64v398h-64zM380 313h64v398h-64z" p-id="1464"></path>
+              </svg>
+            </button>
+          </ng-container>
+          <button class="upload-btn" (click)="cancelTask(item,$event)">
+            <svg t="1575269605323" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+              p-id="1581" width="1em" height="1em">
+              <path
+                d="M892 245H756v-83.47C756 124.84 724.54 95 685.87 95H338.13C299.46 95 268 124.84 268 161.53V245H132a8 8 0 0 0-8 8v56a8 8 0 0 0 8 8h35.78l27.72 547.38c1.84 36.24 32.19 64.62 69.1 64.62h494.8c36.91 0 67.26-28.38 69.1-64.62L856.22 317H892a8 8 0 0 0 8-8v-56a8 8 0 0 0-8-8z m-552-78h344v78H340z m416.78 690H267.22l-27.35-540h544.26z"
+                p-id="1582"></path>
+              <path d="M394 413m8 0l48 0q8 0 8 8l0 286q0 8-8 8l-48 0q-8 0-8-8l0-286q0-8 8-8Z" p-id="1583"></path>
+              <path d="M565 413m8 0l48 0q8 0 8 8l0 286q0 8-8 8l-48 0q-8 0-8-8l0-286q0-8 8-8Z" p-id="1584"></path>
+            </svg>
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+
+<ng-template #virtualScroll>
+  <cdk-virtual-scroll-viewport [itemSize]="uploadScrollSize" [ngClass]="uploadWrap">
+    <div *cdkVirtualFor="let item of uploadlist" class="uploader-item">
+      <div class="taskname">{{item.name}}</div>
+      <div class="progress-wrapper">
+        <ng-container *ngIf="useDefaultProgress;else userDefine">
+          <mat-progress-bar mode="determinate" class="progress-bar-item" [value]="item.progress">
+          </mat-progress-bar>
+        </ng-container>
+        <ng-template #userDefine>
+          <template *ngTemplateOutlet="progressTemplate;context:{$implicit:item}"></template>
+        </ng-template>
+        <div class="progress-options" *ngIf="showOptionsBtn">
+          <ng-container *ngIf="item.isPause">
+            <button class="upload-btn" (click)="continueTask(item,$event)">
+              <svg t="1575269542314" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                xmlns="http://www.w3.org/2000/svg" p-id="1343" width="1em" height="1em">
+                <path
+                  d="M924.78 337.61A449.35 449.35 0 1 0 960 512a446.29 446.29 0 0 0-35.22-174.39zM775 775a372 372 0 1 1 109-263 369.53 369.53 0 0 1-109 263z"
+                  p-id="1344"></path>
+                <path
+                  d="M710.3 472.88L477 294.28a48 48 0 0 0-77.18 38.11v357.22A47.95 47.95 0 0 0 477 727.72l233.3-178.6a48 48 0 0 0 0-76.24zM463.77 657.21V364.79L654.8 511z"
+                  p-id="1345"></path>
+              </svg>
+            </button>
+          </ng-container>
+          <ng-container *ngIf="!item.isPause">
+            <button class="upload-btn" (click)="pauseTask(item,$event)">
+              <svg t="1575269581569" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                xmlns="http://www.w3.org/2000/svg" p-id="1462" width="1em" height="1em">
+                <path
+                  d="M924.78 337.61A449.35 449.35 0 1 0 960 512a446.29 446.29 0 0 0-35.22-174.39zM775 775a372 372 0 1 1 109-263 369.53 369.53 0 0 1-109 263z"
+                  p-id="1463"></path>
+                <path d="M580 313h64v398h-64zM380 313h64v398h-64z" p-id="1464"></path>
+              </svg>
+            </button>
+          </ng-container>
+          <button class="upload-btn" (click)="cancelTask(item,$event)">
+            <svg t="1575269605323" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+              p-id="1581" width="1em" height="1em">
+              <path
+                d="M892 245H756v-83.47C756 124.84 724.54 95 685.87 95H338.13C299.46 95 268 124.84 268 161.53V245H132a8 8 0 0 0-8 8v56a8 8 0 0 0 8 8h35.78l27.72 547.38c1.84 36.24 32.19 64.62 69.1 64.62h494.8c36.91 0 67.26-28.38 69.1-64.62L856.22 317H892a8 8 0 0 0 8-8v-56a8 8 0 0 0-8-8z m-552-78h344v78H340z m416.78 690H267.22l-27.35-540h544.26z"
+                p-id="1582"></path>
+              <path d="M394 413m8 0l48 0q8 0 8 8l0 286q0 8-8 8l-48 0q-8 0-8-8l0-286q0-8 8-8Z" p-id="1583"></path>
+              <path d="M565 413m8 0l48 0q8 0 8 8l0 286q0 8-8 8l-48 0q-8 0-8-8l0-286q0-8 8-8Z" p-id="1584"></path>
+            </svg>
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </cdk-virtual-scroll-viewport>
+</ng-template>

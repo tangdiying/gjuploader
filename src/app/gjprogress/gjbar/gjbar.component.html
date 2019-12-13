@@ -1,0 +1,6 @@
+<div class="scroll" id="scroll" #scroll (click)="barClick($event)">
+    <div class="bar" id="bar" #bar (mousedown)="mousedown($event)" [ngStyle]="{'left': barleft+'px'}">
+    </div>
+    <div class="mask" id="mask" #mask [ngStyle]="{'width':barleft+'px'}"></div>
+  </div>
+  {{gjValue}}

@@ -1,0 +1,28 @@
+<nz-modal [(nzVisible)]="isUpload"
+          nzTitle="上传"
+          [nzWidth]="650"
+          (nzOnCancel)="handleCancel()"
+          (nzOnOk)="handleOk()">
+    <div class="upload-container"
+         (doAfterSingleTaskUploaded)="test($event)"
+         [allowDropToUpload]="true"
+         [autoHandleMergeRequest]="true"
+         gjUploaderDirective [uploadType]="'file'" 
+         [uploaderservice]="uploaderservice"
+           >
+        <div class="upload-logo">
+            <span style="border: #868a87 1px dashed" class="iconfont icon-upload"></span>
+            <p class="upload-desc">将目录或多个文件拖拽到此，或点击<a>上传</a></p>
+        </div>
+    </div>
+    <mat-tab-group mat-align-tabs="center">
+        <mat-tab [label]="'正在上传列表('+currentCount+')'">
+            <div gjUploadProgress [uploadType]="'file'" (curCount)="curCount($event)" [uploadservice]="uploaderservice"></div>
+        </mat-tab>
+        <mat-tab [label]="'上传成功列表('+historyCount+')'">
+            <gj-upload-histroy #uploadHistory [uploadType]="'file'" (uploadCount)="uploadCount($event)" [uploadservice]="uploaderservice">
+            </gj-upload-histroy>
+        </mat-tab>
+    </mat-tab-group>
+</nz-modal>
+<button (click)="isUpload=true">上传</button>

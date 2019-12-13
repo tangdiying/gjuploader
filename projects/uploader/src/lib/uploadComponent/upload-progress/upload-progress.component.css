@@ -1,0 +1,55 @@
+.uploader-list-wrapper {
+  padding: 10px;
+  max-height: 210px;
+  overflow: auto;
+}
+
+.uploader-item {
+  display: flex;
+  height: 30px;
+  align-items: center;
+}
+
+.taskname {
+  width: 100px;
+  overflow: hidden;
+  /* height: 100%; */
+  word-wrap: none;
+  white-space: nowrap;
+  line-height: 50px;
+  text-overflow: ellipsis;
+  cursor: default;
+  flex-shrink: 0;
+}
+
+.progress-wrapper {
+  width: calc(100% - 100px);
+  padding-left: 10px;
+  display: flex;
+  vertical-align: center;
+  align-items: center;
+}
+
+/* .progress-bar-item{
+    width: calc( 100% - 100px )
+} */
+.progress-options {
+  width: 100px;
+}
+
+.upload-btn {
+  border: none;
+  background: transparent;
+}
+
+.example-viewport {
+  height: 180px;
+  width: 100%;
+  border: 1px solid black;
+}
+
+.example-item {
+  height: 30px;
+  display: flex;
+  align-items: center;
+}

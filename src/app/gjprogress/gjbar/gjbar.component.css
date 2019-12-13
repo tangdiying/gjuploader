@@ -1,0 +1,30 @@
+*{
+    margin: 0;
+    padding: 0;
+  }
+  .scroll{
+    width: 500px;
+    height: 5px;
+    background: #ccc;
+    position: relative;
+    margin-top: 10px;
+  }
+  .bar{
+    width: 10px;
+    height: 20px;
+    background: #369;
+    position: absolute;
+    top: -7px;
+    left: 0;
+    cursor: pointer;
+    /* // transition: left cubic-bezier(0.39, 0.575, 0.565, 1) 200ms; */
+  }
+  .mask{
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: #369;
+    width: 0;
+    height: 5px;
+    /* // transition: width cubic-bezier(0.39, 0.575, 0.565, 1) 200ms; */
+  }

@@ -7,6 +7,7 @@
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
     "module": "esnext",
     "moduleResolution": "node",
     "importHelpers": true,
@@ -17,7 +18,27 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "search-box": [
+        "dist/search-box"
+      ],
+      "search-box/*": [
+        "dist/search-box/*"
+      ],
+      "search-demo": [
+        "dist/search-demo"
+      ],
+      "search-demo/*": [
+        "dist/search-demo/*"
+      ],
+      "uploader": [
+        "dist/uploader"
+      ],
+      "uploader/*": [
+        "dist/uploader/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

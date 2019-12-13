@@ -1,0 +1,16 @@
+.uploader-list-wrapper {
+  padding: 10px;
+  max-height: 150px;
+  overflow: auto;
+}
+
+.example-viewport1 {
+  height: 180px;
+  width: 100%;
+  border: 1px solid black;
+}
+.uploader-item {
+    /* display: flex; */
+    height: 30px;
+    /* align-items: center; */
+  }

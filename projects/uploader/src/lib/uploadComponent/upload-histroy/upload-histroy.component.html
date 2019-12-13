@@ -1,0 +1,16 @@
+<ng-container *ngIf="!uploadScroll;else virtualScroll">
+  <div [ngClass]="uploadWrap">
+    <div *ngFor="let item of uploadHistroyList" class="example-item">
+      {{item.name}} <span class="iconfont icon-wancheng upload-finished-icon"></span>
+    </div>
+  </div>
+</ng-container>
+<ng-template #virtualScroll>
+  <cdk-virtual-scroll-viewport [itemSize]="uploadScrollSize" [ngClass]="uploadWrap">
+    <div *cdkVirtualFor="let item of uploadHistroyList" class="uploader-item">
+        <div>
+            {{item.name}} <span class="iconfont icon-wancheng upload-finished-icon"></span>
+        </div>
+    </div>
+  </cdk-virtual-scroll-viewport>
+</ng-template>
