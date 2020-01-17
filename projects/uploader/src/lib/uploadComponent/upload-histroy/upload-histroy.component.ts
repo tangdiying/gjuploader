@@ -15,14 +15,13 @@ export class UploadHistroyComponent implements OnInit, OnDestroy {
     @Input() isClearAll = false;
     @Input() uploadType: string;
     @Output() uploadCount = new EventEmitter()
-    @Input() uploadScroll:boolean = true;
+    @Input() uploadScroll:boolean = false;
     @Input() uploadScrollSize = 30;
     @Input() uploadWrap = "example-viewport1"
-    @Input() uploadservice;
     destroy$ = new Subject();
 
     constructor(
-        // private uploadservice: UploadserviceService
+        private uploadservice: UploadserviceService
     ) {
     }
 
@@ -37,7 +36,12 @@ export class UploadHistroyComponent implements OnInit, OnDestroy {
 
     initUploadHistroylist() {
         if (this.uploadservice.uploaderTypeOfHistroy[this.uploadType]) {
-            this.uploadHistroyList = _.cloneDeep(this.uploadservice.uploaderTypeOfHistroy[this.uploadType]);
+            if(this.uploadScroll){
+                this.uploadHistroyList = _.cloneDeep(this.uploadservice.uploaderTypeOfHistroy[this.uploadType]);
+            }else{
+                this.uploadHistroyList = this.uploadservice.uploaderTypeOfHistroy[this.uploadType];
+            }
+            
         }
         this.uploadservice.addNewTaskTypeIntoTaskHistroyTypeList$
             .pipe(
@@ -47,7 +51,11 @@ export class UploadHistroyComponent implements OnInit, OnDestroy {
             )
             .subscribe(
                 res => {
-                    this.uploadHistroyList = _.cloneDeep(this.uploadservice.uploaderTypeOfHistroy[this.uploadType]);
+                    if(this.uploadScroll){
+                        this.uploadHistroyList = _.cloneDeep(this.uploadservice.uploaderTypeOfHistroy[this.uploadType]);
+                    }else{
+                        this.uploadHistroyList = this.uploadservice.uploaderTypeOfHistroy[this.uploadType];
+                    }
                     this.uploadCount.emit(this.uploadHistroyList.length)
                 }
             );

@@ -13,3 +13,4 @@ export * from './lib/uploadservice/uploadservice.service';
 export * from './lib/uploadComponent/upload-total-progress/upload-total-progress.component'
 export { UploaderModule } from './lib/uploader.module'
 export { UploadserviceService } from './lib/uploadservice/uploadservice.service'
+export {uploadConfig} from './lib/uploaded.type'

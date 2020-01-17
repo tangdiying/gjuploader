@@ -1,0 +1,21 @@
+<div class="" style="display: flex;">
+    <div id="area"  (drop)="drop($event)" (dropover)="dropover($event)">
+        <div class="dropzone">
+            <div id="draggable" draggable="true">
+              This div is draggable
+            </div>
+          </div>
+          <div class="dropzone"></div>
+          <div class="dropzone"></div>
+          <div class="dropzone"></div>
+    </div>
+    <div class="area-right" (drop)="drop($event)" (dragover)="dropover($event)" #areaRight>
+        <div class="area-right-con" (drop)="drop($event)" (dragover)="dropover($event)"></div>
+        <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
+            <div *cdkVirtualFor="let item of items;let i = index" 
+            draggable="true" (drag)="drag($event)" 
+            class="example-item" (drop)="drop($event)" 
+            (dragover)="dropover($event)" (dragstart)="dragstart($event,i)">{{item}}</div>
+          </cdk-virtual-scroll-viewport>
+    </div>
+</div>

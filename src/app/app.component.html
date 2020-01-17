@@ -7,9 +7,7 @@
          (doAfterSingleTaskUploaded)="test($event)"
          [allowDropToUpload]="true"
          [autoHandleMergeRequest]="true"
-         gjUploaderDirective [uploadType]="'file'" 
-         [uploaderservice]="uploaderservice"
-           >
+         gjUploaderDirective [uploadType]="'file'" >
         <div class="upload-logo">
             <span  class="iconfont icon-upload" style="font-size: 50px;"></span>
             <p class="upload-desc">将目录或多个文件拖拽到此，或点击<a>上传</a></p>
@@ -17,25 +15,13 @@
     </div>
     <mat-tab-group mat-align-tabs="center">
         <mat-tab [label]="'正在上传列表('+currentCount+')'">
-            <div gjUploadProgress [uploadType]="'file'" (curCount)="curCount($event)" [uploadservice]="uploaderservice"></div>
+            <div gjUploadProgress [uploadType]="'file'" (curCount)="curCount($event)" [uploadScroll]="false"></div>
         </mat-tab>
         <mat-tab [label]="'上传成功列表('+historyCount+')'">
-            <gj-upload-histroy #uploadHistory [uploadType]="'file'" (uploadCount)="uploadCount($event)" [uploadservice]="uploaderservice">
+            <gj-upload-histroy #uploadHistory [uploadType]="'file'" [uploadScroll]="false" (uploadCount)="uploadCount($event)">
             </gj-upload-histroy>
         </mat-tab>
     </mat-tab-group>
 </nz-modal>
 <button (click)="isUpload=true">上传</button>
-<gj-upload-total-progress [uploadType]="'file'" [uploadservice]="uploaderservice"></gj-upload-total-progress>
-<!-- <mat-progress-bar
-mode="determinate"
-class="progress-bar-item"
-[value]="70">
-</mat-progress-bar> -->
-<!-- <app-player></app-player> -->
-<!-- <app-gjprogress></app-gjprogress> -->
-<!-- <div class="blue-cover" (click)="demo1()" appGruop [templateContent]="cover"></div>
-<div class="blue-cover" (click)="demo1()"></div>
-<ng-template #cover>
-    <div class="pink-cover"></div>
-</ng-template> -->
+<gj-upload-total-progress [uploadType]="'file'"></gj-upload-total-progress>

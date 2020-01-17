@@ -1,9 +1,9 @@
 {
   "name": "gjuploader",
-  "version": "0.0.4",
+  "version": "0.0.13",
   "peerDependencies": {
-    "@angular/common": "^8.2.14",
-    "@angular/core": "^8.2.14"
+    "@angular/common": "^8.0.0",
+    "@angular/core": "^8.0.0"
   },
   "dependencies": {
     "@angular/cdk": "^8.2.3",

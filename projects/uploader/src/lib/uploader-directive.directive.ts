@@ -1,4 +1,4 @@
-import { Directive, Input, Output, ElementRef, Renderer2, EventEmitter, HostListener, ContentChild } from '@angular/core';
+import { Directive, Input, Output, ElementRef, Renderer2, EventEmitter, HostListener, ContentChild, TemplateRef } from '@angular/core';
 import { Subject, fromEvent } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
 import { UploadProgressComponent } from './uploadComponent/upload-progress/upload-progress.component';
@@ -24,11 +24,26 @@ export class UploaderDirectiveDirective {
   @Input() getMeWhenListFinished = false;
   @Input() isUseFolder:boolean = false;
   @Input() fileType = []
-  @Input() uploaderservice;
+  @Input() checkConfig = null;
+  @Input() isCheck:boolean = false;
+  @Input() waitHandleAddFile:boolean = false;
+  @Input() 
+  set dropAreaDom(value){
+      if(value instanceof TemplateRef){
+          this._dropAreaDom = value.elementRef.nativeElement
+      }else if(value instanceof ElementRef){
+        this._dropAreaDom = value.nativeElement
+      }else{
+          this._dropAreaDom = value
+      }
+  }
+  _dropAreaDom = null;
+  FileList;
+  @Output() getFileList = new EventEmitter() 
   constructor(
       private el: ElementRef,
       private renderer: Renderer2,
-    //   private uploaderservice: UploadserviceService
+      private uploaderservice: UploadserviceService
       ) {
   }
 
@@ -89,7 +104,15 @@ export class UploaderDirectiveDirective {
       }else{
           array = filelist
       }
-      this.uploaderservice.handleAddNewUploadTask(array, this.uploadType);
+      if(!this.waitHandleAddFile){
+        this.uploaderservice.handleAddNewUploadTask(array, this.uploadType);
+        }else{
+            for (let index = 0; index < array.length; index++) {
+                this.FileList[index] = new File([array[index]],array[index].name)
+            }
+            this.getFileList.emit(this.FileList)
+        }
+    //   this.uploaderservice.handleAddNewUploadTask(array, this.uploadType);
 
       this.uploadInput['value'] = '';
 
@@ -148,7 +171,14 @@ export class UploaderDirectiveDirective {
   }
 
   initDropToUploadArea() {
-      fromEvent<any>(this.el.nativeElement, 'dragover')
+      let dom;
+      if(this._dropAreaDom){
+        dom = this._dropAreaDom
+      }else{
+          dom = this.el.nativeElement
+      }
+      
+      fromEvent<any>(dom, 'dragover')
           .pipe(
               takeUntil(this.destroy$)
           )
@@ -158,14 +188,19 @@ export class UploaderDirectiveDirective {
                   this.preventDefaultEvent(res);
               }
           );
-      fromEvent<any>(this.el.nativeElement, 'drop')
+      fromEvent<any>(dom, 'drop')
           .pipe(
               takeUntil(this.destroy$)
           )
           .subscribe(res => {
               this.preventDefaultEvent(res);
               const list = res.dataTransfer.files;
-              this.uploaderservice.handleAddNewUploadTask(list, this.uploadType);
+            //   this.uploaderservice.handleAddNewUploadTask(list, this.uploadType);
+            if(this.isCheck){
+                this.uploaderservice.handleAddNewUploadTask(list, this.uploadType,this.checkConfig);
+            }else{
+                this.uploaderservice.handleAddNewUploadTask(list, this.uploadType);
+            }
           });
   }
 

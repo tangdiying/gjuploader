@@ -11,6 +11,7 @@ import {
   takeUntil
 } from 'rxjs/operators';
 import * as _ from 'lodash'
+import { UploadserviceService } from '../../uploadservice/uploadservice.service';
 @Component({
   selector: 'gj-upload-total-progress',
   templateUrl: './upload-total-progress.component.html',
@@ -18,14 +19,14 @@ import * as _ from 'lodash'
 })
 export class UploadTotalProgressComponent implements OnInit, OnDestroy {
 
-  @Input() uploadservice;
+  // @Input() uploadservice;
   speed = 0;
   uploadlist;
   uploadlistfirst;
   uploadHistroyList;
   @Input() uploadType: any;
   destroy$ = new Subject();
-  constructor() {}
+  constructor(private uploadservice: UploadserviceService) {}
 
   ngOnInit() {
     this.initUploadlist()

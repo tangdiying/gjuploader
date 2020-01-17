@@ -18,14 +18,13 @@ export class UploadProgressComponent implements OnInit, OnDestroy {
     @Input() progressTemplate: TemplateRef<any>;
     @Output() curCount = new EventEmitter();
     @Output() isFinishUpload = new EventEmitter();
-    @Input() uploadScroll:boolean = true;
+    @Input() uploadScroll:boolean = false;
     @Input() uploadScrollSize = 30;
     @Input() uploadWrap = "example-viewport"
-    @Input() uploadservice;
     destroy$ = new Subject();
 
     constructor(
-        // private uploadservice: UploadserviceService
+        private uploadservice: UploadserviceService
     ) {
     }
 
@@ -53,14 +52,23 @@ export class UploadProgressComponent implements OnInit, OnDestroy {
             )
             .subscribe(
                 res => {
-                    this.uploadlist = _.cloneDeep(this.uploadservice.uploaderTypeOfTask[this.uploadType]);
+                    if(this.uploadScroll){
+                        this.uploadlist = _.cloneDeep(this.uploadservice.uploaderTypeOfTask[this.uploadType]);
+                    }else{
+                        this.uploadlist = this.uploadservice.uploaderTypeOfTask[this.uploadType];
+                    }
                     this.curCount.emit(this.uploadlist.length)
                 }
             );
         this.uploadservice.addNewTaskTypeIntoTaskHistroyTypeList$
         .pipe(takeUntil(this.destroy$))
         .subscribe(res=>{
-            this.uploadlist = _.cloneDeep(this.uploadservice.uploaderTypeOfTask[this.uploadType])
+            if(this.uploadScroll){
+                this.uploadlist = _.cloneDeep(this.uploadservice.uploaderTypeOfTask[this.uploadType])
+            }else{
+                this.uploadlist = this.uploadservice.uploaderTypeOfTask[this.uploadType]
+            }
+            
             this.curCount.emit(this.uploadlist.length)
             if(this.uploadlist.length==0){
                 this.isFinishUpload.emit()

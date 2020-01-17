@@ -10,10 +10,11 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import {MatTabsModule} from '@angular/material/tabs';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-import { UploaderModule, UploadserviceService } from 'projects/uploader/src/public-api';
+import { UploaderModule, UploadserviceService, uploadConfig } from 'projects/uploader/src/public-api';
 import { DemoModule } from './demo/demo.module';
 import { GjprogressModule } from './gjprogress/gjprogress.module';
 import { GruopDirective } from './gruop.directive';
+import { TreeModule } from './tree/tree.module';
 
 @NgModule({
   declarations: [
@@ -31,17 +32,21 @@ import { GruopDirective } from './gruop.directive';
     UploaderModule,
     HttpClientModule,
     DemoModule,
-    GjprogressModule
+    GjprogressModule,
+    TreeModule
   ],
   providers: [
-    // {
+  
+    {provide:uploadConfig,useValue:{uploadurl:'http://workbench.dev.com/workbench/uploadfile/',
+        testTarget:'/',testChunks:false}}
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+  // {
     //   provide:UploadserviceService,
     //   useFactory:()=>{
     //     return new UploadserviceService('http://192.168.50.128:30003/filesystem/fileload/')
     //   },
     //   deps:[]
     // }
-  ],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }

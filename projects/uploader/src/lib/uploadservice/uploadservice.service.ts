@@ -1,14 +1,15 @@
-import {Injectable, OnDestroy, OnInit} from '@angular/core';
-import {UploadTypeOfTaskList, UploadProgressItem} from '../uploaded.type';
+import {Injectable, OnDestroy, OnInit, InjectionToken, Inject} from '@angular/core';
+import {UploadTypeOfTaskList, UploadProgressItem, uploadConfig} from '../uploaded.type';
 import {Subject} from 'rxjs';
 import * as _ from 'lodash';
 import jsSHA from 'jssha'
 import Resumable from 'uploadguangji';
+import { HttpClient } from '@angular/common/http';
 
 
-// @Injectable({
-//     providedIn: 'root'
-// })
+@Injectable({
+    providedIn: 'root'
+})
 export class UploadserviceService implements OnDestroy{
     uploader: Resumable;
     uploaderTypeOfTask: UploadTypeOfTaskList = {};
@@ -23,12 +24,17 @@ export class UploadserviceService implements OnDestroy{
     addNewTaskTypeIntoTaskTypeList$ = new Subject();
     addNewTaskTypeIntoTaskHistroyTypeList$ = new Subject();
     pushWhenListFinished$ = new Subject();
+    allFile = [];
+    allReader = [];
     
-    constructor(public config) {
-        this.setConfig(config)
-        this.initUploaderInstance(config);
+    // constructor(public config,private http?:HttpClient) {
+    //     this.setConfig(config)
+    //     this.initUploaderInstance(config);
+    // }
+    constructor(@Inject(uploadConfig) private config){
+        this.setConfig(this.config)
+        this.initUploaderInstance(this.config);
     }
-
     ngOnDestroy(): void {
     }
 
@@ -42,11 +48,10 @@ export class UploadserviceService implements OnDestroy{
     initUploaderInstance(config): void {
         this.uploader = new Resumable({
             target: config.uploadurl,
-            testTarget:config.testTarget,
             maxChunkRetries: 4,
-            testChunks: true,
-            testMethod:'POST',
             forceChunkSize: true,
+            testChunks:config['testChunks']?config['testChunks']:false,
+            testTarget:config['testTarget']?config['testTarget']:'/',
             headers:config.headers,
             generateUniqueIdentifier: function(file): string {
                 const t = Math.round(Number(new Date()));
@@ -55,9 +60,6 @@ export class UploadserviceService implements OnDestroy{
                 shaObj.update(file.name);
                 let hash = shaObj.getHash("HEX");
                 return hash
-            },
-            query:function(){
-                return {create_time:new Date()}
             }
         });
         this.handleFilesAdded();
@@ -66,7 +68,7 @@ export class UploadserviceService implements OnDestroy{
 
     }
 
-    handleAddNewUploadTask(list: File[], type: string): void {
+    handleAddNewUploadTask(list: File[], type: string,config?): void {
         // 先添加入uploader实例中
         this.uploader.addFiles(this.addTypeToFileTask(list, type));
     }
